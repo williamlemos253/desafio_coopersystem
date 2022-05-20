@@ -8,7 +8,6 @@ import django_filters.rest_framework
 
 # Create your views here.
 class ProductsAPIView(generics.ListCreateAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -20,7 +19,6 @@ class ProductsAPIView(generics.ListCreateAPIView):
         return self.queryset.all()
 
 class OrderAPIView(generics.ListCreateAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
