@@ -38,7 +38,6 @@ class ProductsManagerAPIViewTestCase(APITestCase):
         request = self.factory.post(self.api_url+'products/', {'name': 'teste', 'price': 10, 'qtd': 10})
         force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = self.product_view(request)
-        print('ver aqui',response.data)
         self.assertEqual(response.data, {'name': 'teste', 'price': '10.00', 'qtd': 10, 'status': 'Disponível'})
     
     def test_get_products(self):
