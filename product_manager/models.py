@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 # Create your models here.
 class Product(models.Model):
@@ -23,7 +24,8 @@ class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     qtd = models.IntegerField()
     unit_price = models.DecimalField(max_digits=8, decimal_places=2)
-    request_date = models.DateField()
+    total_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    request_date = models.DateTimeField(default=now, editable=False)
     requester = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=100)
     uf = models.CharField(max_length=2)
@@ -33,11 +35,12 @@ class Order(models.Model):
     status = models.CharField(max_length=100, choices=[('Pendente', 'Pendente'), ('Enviado', 'Enviado'), ('Entregue', 'Entregue')])
 
 
-    def save(   self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         if self.product.qtd < self.qtd:
             raise ValueError('Não existe estoque suficiente para o pedido') 
         else:
             self.unit_price = self.product.price
+            self.total_price = self.unit_price * self.qtd
             self.product.qtd -= self.qtd
             self.product.save()
         super(Order, self).save(*args, **kwargs)
