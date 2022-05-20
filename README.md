@@ -20,3 +20,5 @@ Swagger:
   localhost:8000/docs tem um bug ainda não corrigido e não funciona se a autenticação do rest framework estar ativada
   
   
+Test:
+Para ver a cobertura dos testes para abrir o arquivo index dentro da pasta htmlcov
